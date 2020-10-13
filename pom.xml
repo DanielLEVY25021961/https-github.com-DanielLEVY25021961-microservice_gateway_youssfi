@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>levy.daniel.application</groupId>
+	<!-- NOM DU FUTUR JAR -->
+	<artifactId>ms-gateway</artifactId>
+	<!-- VERSION DU FUTUR JAR -->
+	<version>1.0.0</version>
+	<name>micro-service_gateway_youssfi_backend</name>
+	<description>Micro-Service gérant des Produits</description>
+
+	<properties>
+	
+		<!-- version de Java -->
+		<java.version>1.8</java.version>	
+		<!-- Force l'encoding des sources du projet en UTF-8 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Vérifie la conformité des classes Java (.java) avec le JDK 1.8 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<!-- Vérifie la conformité des classes Java (.class) avec le JDK 1.8 -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<!-- Encodage pourle Reporting (site web) -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<!-- Ne plante pas en cas d'absence de Web XML (projet SPRING) 	-->		
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		
+		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+	</properties>
+	
+	<!-- ======================================== -->
+	<!--                    PROFILS               -->
+	<!-- ======================================== -->
+	<profiles>
+	
+		<!-- PROFIL DEV -->	
+		<profile>
+		    <id>dev</id>
+		    <properties>
+		        <activatedProperties>dev</activatedProperties>
+		        <spring.profiles.active>dev</spring.profiles.active>
+        		<log4j.level>DEBUG</log4j.level>
+		    </properties>
+		    <activation>
+		    	<!-- PROFIL ACTIF LORS DE L'EXECUTION -->
+		        <activeByDefault>true</activeByDefault>
+		    </activation>
+		    <build>
+			    <resources>
+			        <resource>
+			            <directory>src/main/resources</directory>
+			            <filtering>true</filtering>
+			        </resource>
+			    </resources>
+			</build>
+		</profile>
+		<!-- PROFIL PROD -->
+		<profile>
+		    <id>prod</id>
+		    <properties>
+		        <activatedProperties>prod</activatedProperties>
+		        <spring.profiles.active>prod</spring.profiles.active>
+        		<log4j.level>FATAL</log4j.level>
+		    </properties>
+		   	<activation>
+		   		<!-- PROFIL ACTIF LORS DU BUILD (pas de l'exécution) -->
+		        <activeByDefault>false</activeByDefault>
+		    </activation>
+		    <build>
+			    <resources>
+			        <resource>
+			            <directory>src/main/resources</directory>
+			            <filtering>true</filtering>
+			        </resource>
+			    </resources>
+			</build>
+		    
+		</profile>
+			
+	</profiles>	
+	
+	
+
+
+	<dependencies>
+		
+		<!-- ================================ -->
+		<!-- dépendances pour SPRING BOOT     -->
+		<!-- ================================ -->
+		<!-- ACTUATOR PROFILER DU SITE -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		
+		<!-- SPRING BOOT PROXY GATEWAY -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+		<!-- COUPE CIRCUIT HYSTRIX -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+		</dependency>
+		
+		<!-- ANNUAIRE DE MICRO-SERVICES (REGISTRY) EUREKA -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
+		<!-- SPRING DEV TOOLS -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		
+		<!-- SPRING TEST UNITAIRES -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+	
+			
+	<!-- =========================================== -->
+	<!-- MANAGEMENT des dépendances WEB CLOUD     	 -->
+	<!-- =========================================== -->			
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
